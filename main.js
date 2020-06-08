@@ -41,17 +41,17 @@ let scrape = async (cnpj) => {
         ////page.setIgnoreHTTPSErrors(true);
 
 
-        await page.type('#Cnpj', cnpj, {delay: 300}) 
+        await page.type('#Cnpj', cnpj, {delay: 200}) 
 
 
-        await page.waitFor(3000)
+        await page.waitFor(2000)
 
         await page.evaluate(() => {
             const element = document.getElementById('btnSubmit')
             if(element) return element.click()  
         })
 
-        await page.waitFor(3000)
+        await page.waitFor(2000)
 
         await page.evaluate(() => {
             const element = document.getElementById('btnSubmit')
@@ -62,7 +62,7 @@ let scrape = async (cnpj) => {
         //     document.getElementById('btnMaisInfo').click()
         // })
 
-        await page.waitFor(3000)
+        await page.waitFor(2000)
         const result = await page.evaluate(() => {
             let registros = {}
             registros.cnpj = document.querySelector("#conteudo > div:nth-child(2) > div.panel-body > span:nth-child(1)").textContent
