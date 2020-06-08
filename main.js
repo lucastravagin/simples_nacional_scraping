@@ -31,7 +31,7 @@ const chromeOptions = {
 let scrape = async (cnpj) => {
 
     try {
-        const browser = await puppeter.launch(chromeOptions)
+        const browser = await puppeter.launch()
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: 'networkidle2' })
 
