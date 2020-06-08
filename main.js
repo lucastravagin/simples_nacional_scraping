@@ -50,6 +50,13 @@ let scrape = async (cnpj) => {
             const element = document.getElementById('btnSubmit')
             if(element) return element.click()  
         })
+
+        await page.waitFor(3000)
+
+        await page.evaluate(() => {
+            const element = document.getElementById('btnSubmit')
+            if(element) return element.click()  
+        })
         // await page.waitFor(2000)
         // await page.evaluate(() => {
         //     document.getElementById('btnMaisInfo').click()
