@@ -3,12 +3,30 @@ const app = require('express')()
 const port = 2000
 const url = 'https://consopt.www8.receita.fazenda.gov.br/consultaoptantes'
 
+
+
+app.get('/', async (req, res) => {
+    try {
+        var cnpj = req.query.cnpj
+
+        await scrape(cnpj).then((value)=>{
+            //if (value == undefined) res.status(404).send({Erro: 'CNPJ não encontrado no portal da transparência'})
+            res.status(200).json(value)
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({Erro: 'CNPJ não encontrado'})
+    }
+
+})
+
 const chromeOptions = {
     headless: false,
     defaultViewport: null
 }
 
-let scrape = async () => {
+let scrape = async (cnpj) => {
 
     try {
         const browser = await puppeter.launch(chromeOptions)
@@ -17,7 +35,7 @@ let scrape = async () => {
 
 
         await page.evaluate(() => {
-            document.querySelector("#Cnpj").value = '42278473000103'
+            document.querySelector("#Cnpj").value = cnpj
         })
 
         await page.waitFor(3000)
@@ -60,7 +78,7 @@ let scrape = async () => {
 }
 
 
-scrape().then((value) => console.log(value))
 
 
-const browser = await puppeter.launch({args: ['--no-sandbox']})
+
+
