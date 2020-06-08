@@ -3,7 +3,9 @@ const app = require('express')()
 const port = 2000
 const url = 'https://consopt.www8.receita.fazenda.gov.br/consultaoptantes'
 
-
+app.listen(port, function () {
+    console.log(`app listen on port ${port}`)
+})
 
 app.get('/', async (req, res) => {
     try {
