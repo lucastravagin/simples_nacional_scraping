@@ -34,7 +34,9 @@ let scrape = async (cnpj) => {
         const browser = await puppeter.launch()
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: 'networkidle2' })
+        page.setIgnoreHTTPSErrors(true);
 
+        
         await page.type('#Cnpj', cnpj, {delay: 300}) 
 
 
