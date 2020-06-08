@@ -35,17 +35,15 @@ let scrape = async (cnpj) => {
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: 'networkidle2' })
 
+        await page.type('#Cnpj', cnpj, {delay: 300}) 
 
-        await page.evaluate(() => {
-            document.querySelector("#Cnpj").value = cnpj
-        })
 
         await page.waitFor(3000)
 
         await page.evaluate(() => {
-            document.getElementById('btnSubmit').click()
+            const element = document.getElementById('btnSubmit')
+            if(element) return element.click()  
         })
-
         // await page.waitFor(2000)
         // await page.evaluate(() => {
         //     document.getElementById('btnMaisInfo').click()
