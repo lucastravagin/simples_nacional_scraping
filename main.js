@@ -31,12 +31,16 @@ const chromeOptions = {
 let scrape = async (cnpj) => {
 
     try {
-        const browser = await puppeter.launch()
+        const browser = await puppeter.launch({
+            args: ['--enable-features=NetworkService'],
+            headless: true,
+            ignoreHTTPSErrors: true,
+          })
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: 'networkidle2' })
-        page.setIgnoreHTTPSErrors(true);
+        ////page.setIgnoreHTTPSErrors(true);
 
-        
+
         await page.type('#Cnpj', cnpj, {delay: 300}) 
 
 
