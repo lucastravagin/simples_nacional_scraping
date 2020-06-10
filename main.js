@@ -12,7 +12,7 @@ app.get('/', async (req, res) => {
         var cnpj = req.query.cnpj
 
         await scrape(cnpj).then((value)=>{
-            //if (value == undefined) res.status(404).send({Erro: 'CNPJ não encontrado no portal da transparência'})
+            if (value == undefined) res.status(500).send({Erro: 'Erro no processamento da requisção, tente novamente'})
             res.status(200).json(value)
         })
         
@@ -25,17 +25,22 @@ app.get('/', async (req, res) => {
 
 const chromeOptions = {
     headless: false,
-    defaultViewport: null
+    defaultViewport: null,
+    args: ['--enable-features=NetworkService'],
+    ignoreHTTPSErrors: true
 }
 
+
+
+// {
+//     args: ['--enable-features=NetworkService'],
+//     headless: true,
+//     ignoreHTTPSErrors: true,
+//   }
 let scrape = async (cnpj) => {
 
     try {
-        const browser = await puppeter.launch({
-            args: ['--enable-features=NetworkService'],
-            headless: true,
-            ignoreHTTPSErrors: true,
-          })
+        const browser = await puppeter.launch(chromeOptions)
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: 'networkidle2' })
         ////page.setIgnoreHTTPSErrors(true);
@@ -43,20 +48,18 @@ let scrape = async (cnpj) => {
 
         await page.type('#Cnpj', cnpj, {delay: 200}) 
 
-
-        await page.waitFor(2000)
-
-        await page.evaluate(() => {
-            const element = document.getElementById('btnSubmit')
-            if(element) return element.click()  
+        await page.evaluate(async () => {
+            let botao = document.getElementById('btnSubmit')
+            botao.click()
+            await new Promise(r => setTimeout(r, 2000));
+            const elementErro = document.querySelector("#conteudoPage > div:nth-child(2) > form > div.alert.alert-danger")
+            if (elementErro) {
+                return botao.click()
+            }
+              
         })
 
-        await page.waitFor(2000)
-
-        await page.evaluate(() => {
-            const element = document.getElementById('btnSubmit')
-            if(element) return element.click()  
-        })
+      
         // await page.waitFor(2000)
         // await page.evaluate(() => {
         //     document.getElementById('btnMaisInfo').click()
