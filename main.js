@@ -24,8 +24,8 @@ app.get('/', async (req, res) => {
 })
 
 const chromeOptions = {
-    headless: false,
-    defaultViewport: null,
+    headless: true,
+    //defaultViewport: null,
     args: ['--enable-features=NetworkService'],
     ignoreHTTPSErrors: true
 }
