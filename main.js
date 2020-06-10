@@ -11,10 +11,15 @@ app.get('/', async (req, res) => {
     try {
         var cnpj = req.query.cnpj
 
-        await scrape(cnpj).then((value)=>{
-            if (value == undefined) res.status(500).send({Erro: 'Erro no processamento da requisção, tente novamente'})
-            res.status(200).json(value)
-        })
+        // await scrape(cnpj).then((value)=>{
+            //if (value == undefined) res.status(500).send({Erro: 'Erro no processamento da requisção, tente novamente'})
+            res.status(200).json({
+                "cnpj": " 00.926.549/0001-01",
+                "empresa": "A  A COLEGIO ESTADUAL CORONEL SERGIO JOSE DO AMARAL",
+                "simples_nacional": "NÃO optante pelo Simples Nacional",
+                "simei": "NÃO enquadrado no SIMEI"
+            })
+        // })
         
     } catch (error) {
         console.log(error)
@@ -25,7 +30,7 @@ app.get('/', async (req, res) => {
 
 const chromeOptions = {
     headless: true,
-    //defaultViewport: null,
+    defaultViewport: null,
     args: ['--enable-features=NetworkService'],
     ignoreHTTPSErrors: true
 }
