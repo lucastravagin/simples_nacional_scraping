@@ -46,6 +46,7 @@ let scrape = async (cnpj) => {
         await page.goto(`http://www.sintegraws.com.br/api/v1/execute-api-tela2.php?cnpj=${cnpj}&plugin=SN`, { waitUntil: 'networkidle2' })
         
 
+        let bodyHTML = await page.evaluate(() => document.body.innerHTML);
         
         // const result = await page.evaluate(() => {
         //     let registros = {}
@@ -67,7 +68,7 @@ let scrape = async (cnpj) => {
         // })
 
         //browser.close()
-        //return result
+        return bodyHTML
 
     } catch (error) {
          console.log(error)
