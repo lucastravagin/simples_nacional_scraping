@@ -1,0 +1,17 @@
+{
+"code": "0",
+"status": "OK",
+"message": "Pesquisa realizada com sucesso.",
+"cnpj": "42278473000103",
+"cnpj_matriz": "42.278.473/0001-03",
+"nome_empresarial": "WIZ SOLUCOES E CORRETAGEM DE SEGUROS S.A",
+"situacao_simples_nacional": "NÃO optante pelo Simples Nacional",
+"situacao_simei": "NÃO enquadrado no SIMEI",
+"situacao_simples_nacional_anterior": "Não Existem",
+"situacao_simei_anterior": "Não Existem",
+"agendamentos": "Campo descontinuado pelo simples nacional.",
+"eventos_futuros_simples_nacional": "Não Existem",
+"eventos_futuros_simples_simei": "Não Existem",
+"version": "5",
+"machine": "5"
+}
