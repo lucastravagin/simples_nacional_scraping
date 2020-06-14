@@ -24,7 +24,7 @@ app.get('/', async (req, res) => {
 })
 
 const chromeOptions = {
-    headless: false,
+    headless: true,
     defaultViewport: null,
     args: ['--enable-features=NetworkService'],
     ignoreHTTPSErrors: true
@@ -48,18 +48,22 @@ let scrape = async (cnpj) => {
 
         let bodyHTML = await page.evaluate(() => document.body.innerHTML);
         
-        // const result = await page.evaluate(() => {
-        //     let registros = {}
-        //     registros.cnpj = document.querySelector("#conteudo > div:nth-child(2) > div.panel-body > span:nth-child(1)").textContent
-        //     registros.empresa = document.querySelector("#conteudo > div:nth-child(2) > div.panel-body > span:nth-child(6)").textContent
-        //     registros.simples_nacional = document.querySelector("#conteudo > div:nth-child(3) > div.panel-body > span:nth-child(1)").textContent
-        //     registros.simei = document.querySelector("#conteudo > div:nth-child(3) > div.panel-body > span:nth-child(3)").textContent
-        //     // registros.opcao_pelo_simples_nacional_anteriores = document.querySelector("#maisInfo > div:nth-child(2) > div.panel-body > span:nth-child(1) > span").textContent
-        //     // registros.enquadramentos_simei_anteriores = document.querySelector("#maisInfo > div:nth-child(2) > div.panel-body > span:nth-child(4) > span").textContent
-        //     // registros.eventos_futuros_simples_nacional = document.querySelector("#spnEvFutSimei").textContent
-        //     // registros.eventos_futuros_simei = document.querySelector("#spnEvFutSimei").textContent
-        //     return registros
-        // })
+        const result = await page.evaluate(() => {
+            let registros = {}
+            registros.code = "0",
+            registros.status = "OK",
+            registros.message = "Pesquisa realizada com sucesso.",
+            registros.data_consulta = document.querySelector("#conteudo > h5 > span").textContent
+            registros.cnpj = document.querySelector("#conteudo > div:nth-child(2) > div.panel-body > span:nth-child(1)").textContent.trim()
+            registros.nome_empresarial = document.querySelector("#conteudo > div:nth-child(2) > div.panel-body > span:nth-child(6)").textContent.trim()
+            registros.situacao_simples_nacional = document.querySelector("#conteudo > div:nth-child(3) > div.panel-body > span:nth-child(1)").textContent.trim()
+            registros.situacao_simei = document.querySelector("#conteudo > div:nth-child(3) > div.panel-body > span:nth-child(3)").textContent
+            registros.situacao_simples_nacional_anterior = document.querySelector("#conteudo > div:nth-child(6) > div.panel-body > span:nth-child(1) > span").textContent.trim()
+            registros.situacao_simei_anterior = document.querySelector("#conteudo > div:nth-child(6) > div.panel-body > span:nth-child(4) > span").textContent.trim()
+            registros.eventos_futuros_simples_nacional = document.querySelector("#spnEvFutSimei").textContent.trim()
+            registros.eventos_futuros_simples_simei = document.querySelector("#spnEvFutSimei").textContent.trim()
+            return registros
+        })
 
         //await page.waitForSelector('#btnMaisInfo')
         // await page.waitFor(4000)
@@ -67,8 +71,8 @@ let scrape = async (cnpj) => {
         //     document.getElementById('btnMaisInfo').click()
         // })
 
-        //browser.close()
-        return bodyHTML
+        browser.close()
+        return result
 
     } catch (error) {
          console.log(error)
